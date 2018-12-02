@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
-import { Auth, Logger } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { Container, Form, InputGroup, Button, Alert } from 'bootstrap-4-react';
 
-const logger = new Logger('Profile');
+import Unauthorised from '../components/Unauthorised';
+import Unexpected from '../components/Unexpected';
+import store, { updateProfile } from '../store';
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.loadProfile = this.loadProfile.bind(this);
     this.saveProfile = this.saveProfile.bind(this);
-    this.state = { profile: {given_name: '', family_name: ''} };
+    this.storeListener = this.storeListener.bind(this);
+
+    const state = store.getState();
+    this.state = { user: state.user, profile: state.profile };
   }
 
   componentDidMount() {
-    if (this.props.user) { this.loadProfile() }
+    this.unsubscribeStore = store.subscribe(this.storeListener);
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.user && this.props.user) {
-      this.loadProfile();
-    }
+  componentWillUnmount() {
+    this.unsubscribeStore();
   }
 
   handleInputChange(name, value) {
@@ -29,37 +31,28 @@ export default class Profile extends Component {
     this.setState({ profile: profile });
   }
 
-  loadProfile() {
-    const { user } = this.props;
-    Auth.userAttributes(user)
-      .then(data => this.loadSuccess(data))
-      .catch(err => this.handleError(err));
-  }
-
   saveProfile() {
-    const { user } = this.props;
+    const { user, profile } = this.state;
     if (!user) {
       this.handleError('No user to save to');
       return;
     }
 
-    Auth.updateUserAttributes(user, this.state.profile)
+    Auth.updateUserAttributes(user, profile)
       .then(data => this.saveSuccess(data))
       .catch(err => this.handleError(err));
   }
 
   loadSuccess(data) {
-    logger.info('loaded user attributes', data);
     const profile = this.translateAttributes(data);
     this.setState({ profile: profile });
   }
 
   saveSuccess(data) {
-    logger.info('saved user profile', data);
+    store.dispatch(updateProfile(this.state.profile));
   }
 
   handleError(error) {
-    logger.info('load / save user attributes error', error);
     this.setState({ error: error.message || error });
   }
 
@@ -71,8 +64,16 @@ export default class Profile extends Component {
     return profile;
   }
 
+  storeListener() {
+    const state = store.getState();
+    this.setState({ user: state.user, profile: state.profile });
+  }
+
   render() {
-    const { profile, error } = this.state;
+    const { user, profile, error } = this.state;
+
+    if (!user) { return <Unauthorised /> }
+    if (!user.id) { return <Unexpected /> }
 
     return (
       <Container display="flex" flex="column" alignItems="center">
