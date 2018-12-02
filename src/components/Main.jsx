@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import store from '../store/AmplifyBridge.js';
+import store from '../store';
 
 import Home from '../pages/Home';
 import Profile from '../pages/Profile'

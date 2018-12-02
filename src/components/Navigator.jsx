@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav, BSpan } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import store from '../store/index.js';
+import store from '../store';
 import JSignOut from './auth/JSignOut';
 
 const HomeItems = props => (
