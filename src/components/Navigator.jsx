@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, BSpan } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { Auth, Hub } from 'aws-amplify';
+
+import store from '../store/index.js';
 import JSignOut from './auth/JSignOut';
 
 const HomeItems = props => (
@@ -53,29 +54,27 @@ export default class Navigator extends Component {
   constructor(props) {
     super(props);
 
-    this.loadUser = this.loadUser.bind(this);
+    this.storeListener = this.storeListener.bind(this);
 
-    Hub.listen('auth', this, 'navigator');
-
-    this.state = { user: null }
+    this.state = { user: null, profile: null }
   }
 
   componentDidMount() {
-    this.loadUser();
+    this.unsubscribeStore = store.subscribe(this.storeListener);
   }
 
-  onHubCapsule(capsule) {
-    this.loadUser();
+  componentWillUnmount() {
+    this.unsubscribeStore();
   }
 
-  loadUser() {
-    Auth.currentAuthenticatedUser()
-      .then(user => this.setState({ user: user }))
-      .catch(err => this.setState({ user: null }));
+  storeListener() {
+    const state = store.getState();
+    this.setState({ user: state.user, profile: state.profile });
   }
 
   render() {
     const { user } = this.state;
+    const profile = this.state.profile || {};
 
     return (
       <Navbar expand="md" dark bg="dark" fixed="top">
@@ -93,7 +92,7 @@ export default class Navigator extends Component {
             </HashRouter>
           </Navbar.Nav>
           <Navbar.Text mr="2">
-            { user? 'Hi ' + user.username : '<- Login to save progress' }
+            { user? 'Hi ' + (profile.given_name || user.username) : '<- Login to save progress' }
           </Navbar.Text>
           { user && <JSignOut /> }
         </Navbar.Collapse>

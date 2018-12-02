@@ -2,36 +2,31 @@ import React, { Component } from 'react';
 import { Container } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
+import store from '../store/AmplifyBridge.js';
+
 import Home from '../pages/Home';
 import Profile from '../pages/Profile'
 import Login from '../pages/Login';
-
-import { Auth } from 'aws-amplify';
-import { Hub } from 'aws-amplify';
 
 export default class Main extends Component {
   constructor(props) {
     super(props);
 
-    this.loadUser = this.loadUser.bind(this);
-
-    Hub.listen('auth', this, 'main');
+    this.storeListener = this.storeListener.bind(this);
 
     this.state = { user: null }
   }
 
   componentDidMount() {
-    this.loadUser(); // The first check
+    this.unsubscribeStore = store.subscribe(this.storeListener);
   }
 
-  loadUser() {
-    Auth.currentAuthenticatedUser()
-      .then(user => this.setState({ user: user }))
-      .catch(err => this.setState({ user: null }));
+  componentWillUnmount() {
+    this.unsubscribeStore();
   }
 
-  onHubCapsule(capsule) {
-    this.loadUser();
+  storeListener() {
+    this.setState({ user: store.getState().user });
   }
   
   render() {
