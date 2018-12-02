@@ -3,6 +3,7 @@ import { Container } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import Home from '../pages/Home';
+import Profile from '../pages/Profile'
 import Login from '../pages/Login';
 
 import { Auth } from 'aws-amplify';
@@ -14,7 +15,7 @@ export default class Main extends Component {
 
     this.loadUser = this.loadUser.bind(this);
 
-    Hub.listen('auth', this, 'navigator'); // Add this component as listener of auth event.
+    Hub.listen('auth', this, 'main');
 
     this.state = { user: null }
   }
@@ -30,7 +31,7 @@ export default class Main extends Component {
   }
 
   onHubCapsule(capsule) {
-    this.loadUser(); // Triggered every time user sign in / out
+    this.loadUser();
   }
   
   render() {
@@ -45,6 +46,11 @@ export default class Main extends Component {
                 exact
                 path="/"
                 render={(props) => <Home user={user} />}
+              />
+              <Route
+                exact
+                path="/profile"
+                render={(props) => <Profile user={user} />}
               />
               <Route
                 exact
