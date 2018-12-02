@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "symbolorum-20181202114915-authRole",
+            "UnauthRoleArn": "arn:aws:iam::684106929968:role/symbolorum-20181202114915-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::684106929968:role/symbolorum-20181202114915-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "symbolorum-20181202114915-deployment",
+            "UnauthRoleName": "symbolorum-20181202114915-unauthRole",
+            "StackName": "symbolorum-20181202114915",
+            "StackId": "arn:aws:cloudformation:eu-west-1:684106929968:stack/symbolorum-20181202114915/4b180430-f628-11e8-a70f-0a999da78b84"
+        }
+    }
+}
