@@ -1,8 +1,6 @@
-import { Auth, Hub, Logger } from 'aws-amplify';
+import { Auth, Hub } from 'aws-amplify';
 
 import { switchUser, updateProfile, deleteProfile } from './actions';
-
-const logger = new Logger('AmplifyBridge');
 
 export default class AmplifyBridge {
   constructor(store) {
@@ -11,11 +9,10 @@ export default class AmplifyBridge {
     this.onHubCapsule = this.onHubCapsule.bind(this);
     Hub.listen('auth', this, 'AmplifyBridge');
 
-    this.checkUser();
+    this.checkUser(); // first check
   }
 
   onHubCapsule(capsule) {
-    logger.info('on Auth event', capsule);
     this.checkUser();
   }
 
@@ -25,6 +22,12 @@ export default class AmplifyBridge {
       .catch(err => this.checkUserError(err));
   }
 
+  loadUserInfo(user) {
+    Auth.currentUserInfo()
+      .then(info => this.loadUserInfoSuccess(user, info))
+      .catch(err => this.loadUserInfoUserError(user, err));
+  }
+
   loadProfile(user) {
     Auth.userAttributes(user)
       .then(data => this.loadProfileSuccess(data))
@@ -32,25 +35,30 @@ export default class AmplifyBridge {
   }
 
   checkUserSuccess(user) {
-    logger.info('check user success', user);
-    this.store.dispatch(switchUser(user));
+    this.loadUserInfo(user);
     this.loadProfile(user);
   }
 
   checkUserError(err) {
-    logger.info('check user error', err);
     this.store.dispatch(switchUser(null));
     this.store.dispatch(deleteProfile());
   }
 
+  loadUserInfoSuccess(user, info) {
+    Object.assign(user, info);
+    this.store.dispatch(switchUser(user));
+  }
+
+  loadUserInfoError(user, err) {
+    this.store.dispatch(switchUser(user));
+  }
+
   loadProfileSuccess(data) {
-    logger.info('load profile success', data);
     const profile = this.translateAttributes(data);
     this.store.dispatch(updateProfile(profile));
   }
 
   loadProfileError(err) {
-    logger.info('load profile error', err);
     this.store.dispatch(deleteProfile());
   }
 
