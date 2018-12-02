@@ -78,6 +78,13 @@
 				}
 			}
 		},
+		"hostingS3AndCloudFront": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/hosting/template.json",
+				"Parameters": {}
+			}
+		},
 		"authcognitoc7133ded": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {

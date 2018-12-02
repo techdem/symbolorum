@@ -11,7 +11,24 @@
 			"StackId": "arn:aws:cloudformation:eu-west-1:684106929968:stack/symbolorum-20181202114915/4b180430-f628-11e8-a70f-0a999da78b84"
 		}
 	},
-	"hosting": {},
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/hosting/template.json",
+				"logicalId": "hostingS3AndCloudFront"
+			},
+			"lastPushTimeStamp": "2018-12-02T12:41:10.601Z",
+			"output": {
+				"S3BucketSecureURL": "https://symbolorum.s3.amazonaws.com",
+				"WebsiteURL": "http://symbolorum.s3-website-eu-west-1.amazonaws.com",
+				"Region": "eu-west-1",
+				"HostingBucketName": "symbolorum"
+			},
+			"lastPushDirHash": "s18jjdgZuJdczI09Ks5L5t5QCiw="
+		}
+	},
 	"auth": {
 		"cognitoc7133ded": {
 			"service": "Cognito",
@@ -20,7 +37,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/auth/cognitoc7133ded-cloudformation-template.yml",
 				"logicalId": "authcognitoc7133ded"
 			},
-			"lastPushTimeStamp": "2018-12-02T12:31:58.548Z",
+			"lastPushTimeStamp": "2018-12-02T12:41:10.600Z",
 			"output": {
 				"AppClientSecret": "q4cjntlphsg60bkee367adnqk7na9gaovtcoe0envapkcmooup1",
 				"UserPoolId": "eu-west-1_6DNZP715Z",

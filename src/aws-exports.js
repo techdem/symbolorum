@@ -2,6 +2,9 @@
 
 const awsmobile =  {
     "aws_project_region": "eu-west-1",
+    "aws_content_delivery_bucket": "symbolorum",
+    "aws_content_delivery_bucket_region": "eu-west-1",
+    "aws_content_delivery_url": "http://symbolorum.s3-website-eu-west-1.amazonaws.com",
     "aws_cognito_identity_pool_id": "eu-west-1:4a4f0fe1-4374-4d59-8ab7-3dafb873f005",
     "aws_cognito_region": "eu-west-1",
     "aws_user_pools_id": "eu-west-1_6DNZP715Z",
