@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, BSpan } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { SignOut } from 'aws-amplify-react';
+import JSignOut from './auth/JSignOut';
 
 const HomeItems = props => (
   <React.Fragment>
@@ -29,6 +29,8 @@ const LoginItems = props => (
 
 export default class Navigator extends Component {
   render() {
+    const { user } = this.props;
+    
     return (
       <Navbar expand="md" dark bg="dark" fixed="top">
         <Navbar.Brand href="#">Journal</Navbar.Brand>
@@ -43,8 +45,8 @@ export default class Navigator extends Component {
               </Switch>
             </HashRouter>
           </Navbar.Nav>
-          <Navbar.Text>Greetings</Navbar.Text>
-          <SignOut />
+          <Navbar.Text>Login to save your creation</Navbar.Text>
+          { user && <JSignOut /> }
         </Navbar.Collapse>
       </Navbar>
     )
