@@ -77,7 +77,7 @@ export default class Navigator extends Component {
     const profile = this.state.profile || {};
 
     return (
-      <Navbar expand="md" dark bg="dark" fixed="top">
+      <Navbar expand="md" dark bg="dark" fixed="static-top">
         <Navbar.Brand href="#">Symbolorum</Navbar.Brand>
         <Navbar.Toggler target="#navbarsExampleDefault" />
 
@@ -97,6 +97,7 @@ export default class Navigator extends Component {
           { user && <JSignOut /> }
         </Navbar.Collapse>
       </Navbar>
+      
     )
   }
 }
