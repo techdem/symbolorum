@@ -97,7 +97,6 @@ export default class Navigator extends Component {
           { user && <JSignOut /> }
         </Navbar.Collapse>
       </Navbar>
-      
     )
   }
 }

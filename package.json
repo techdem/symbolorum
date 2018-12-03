@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tensorflow/tfjs": "^0.14.0",
     "aws-amplify": "^1.1.10",
     "aws-amplify-react": "^2.1.4",
     "bootstrap-4-react": "0.0.57",
