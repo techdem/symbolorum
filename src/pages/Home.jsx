@@ -3,7 +3,7 @@ import { Lead } from 'bootstrap-4-react';
 import { BSpan } from 'bootstrap-4-react';
 import Draw from '../components/Draw'
 import * as tf from '@tensorflow/tfjs'
-const DRAW_TITLE = 'Draw a symbol in the box:';
+const DRAW_TITLE = 'Start by drawing a symbol in the box:';
 
 export default class Home extends Component {
   constructor(props){
@@ -57,12 +57,9 @@ export default class Home extends Component {
   }
   
   render() {
-    const { user } = this.props;
-    
+
     return (
       <React.Fragment>
-        <h1>Home</h1>
-        { user && <Lead>You are signed in as <BSpan font="italic">{user.username}</BSpan>.</Lead> }
         <h5>{this.props.title || DRAW_TITLE}</h5>
         <div>
           <Draw 
@@ -74,12 +71,16 @@ export default class Home extends Component {
             lineWidth={25}
           />
         </div>
+        
+        <h5>You can store up to five symbols:</h5>
         <button onClick={this.add}>
-            {this.props.buttonText || 'Add'}
+            {this.props.buttonText || 'Store'}
         </button>
         <button onClick={this.clear}>
             {this.props.buttonText || 'Clear'}
         </button>
+          
+          
       </React.Fragment>
     )
   }
