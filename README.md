@@ -4,6 +4,6 @@
 
 ## Technologies
 
-#### React, TensorFlow
+#### React, TensorFlow, AWS
 
 ## Abstract
