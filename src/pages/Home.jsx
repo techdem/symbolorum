@@ -1,31 +1,68 @@
 import React, { Component } from 'react';
-import { Lead } from 'bootstrap-4-react';
-import { BSpan } from 'bootstrap-4-react';
-import Draw from '../components/Draw'
-import * as tf from '@tensorflow/tfjs'
+import Draw from '../components/Draw';
+import * as tf from '@tensorflow/tfjs';
+
 const DRAW_TITLE = 'Start by drawing a symbol in the box:';
+const symbols = new Array();
 
 export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {};
     this.clear = this.clear.bind(this);
+    this.tempImg = this.tempImg.bind(this);
+    this.add = this.add.bind(this);
+    this.predict = this.predict.bind(this);
     this.loadModel();
+    
   }
 
   async loadModel(){
-    this.model = await tf.loadModel('./assets/model.json');
+    this.model = await tf.loadModel('https://s3-eu-west-1.amazonaws.com/symbolorum/static/Keras/model.json');
   }
 
-  async predict(imageData) {
+  clear(){
+    this.setState({
+      number: false,
+      clear: true
+    });
+
+    if(typeof this.props.onClear === 'function'){
+      this.props.onClear();
+    }
+  }
+  
+  tempImg(imageData) {
+    this.setState({
+      img: imageData,
+      clear: false
+    })
+  }
+  
+  add(){
+    
+    symbols.push(this.img);
+    
+    this.setState({ symbols, clear: false });
+
+    if(typeof this.props.onAdd === 'function'){
+      this.props.onAdd(symbols);
+    }
+  }
+  
+  async predict() {
     if(!this.model){
-        return;
+      this.setState({
+        number: "model not loaded",
+        clear: false
+      });
+      return;
     }
 
     await tf.tidy(() => {
       let maxProb = 0;
       let number;
-      let img = tf.fromPixels(imageData, 1);
+      let img = tf.fromPixels(this.state.img, 1);
       img = img.reshape([1, 28, 28, 1]);
       img = tf.cast(img, 'float32');
     
@@ -34,28 +71,19 @@ export default class Home extends Component {
         
       predictions.forEach((prob, num) => {
         if(prob > maxProb){
-            maxProb = prob;
-            number = num;
+          maxProb = prob;
+          number = num;
         }
       });
-      this.setState({ number, predictions, clear: false });
+      
+      this.setState({ number, clear: false });
 
       if(typeof this.props.onPredict === 'function'){
-        this.props.onPredict(number, predictions);
+        this.props.onPredict(number);
       }
     });
   }
 
-  clear(){
-    this.setState({
-      clear: true,
-    });
-
-    if(typeof this.props.onClear === 'function'){
-      this.props.onClear();
-    }
-  }
-  
   render() {
 
     return (
@@ -64,23 +92,22 @@ export default class Home extends Component {
         <div>
           <Draw 
             brushColor={'grey'}
-            add={this.state.save}
             clear={this.state.clear}
             height={this.props.height}
             width={this.props.width}
-            lineWidth={25}
+            lineWidth={5}
+            onGetImage={this.tempImg}
           />
         </div>
         
         <h5>You can store up to five symbols:</h5>
-        <button onClick={this.add}>
-            {this.props.buttonText || 'Store'}
+        <button onClick={this.predict}>
+            {this.props.buttonText || 'Add'}
         </button>
         <button onClick={this.clear}>
             {this.props.buttonText || 'Clear'}
         </button>
-          
-          
+        <h1>{this.state.number}</h1>
       </React.Fragment>
     )
   }
