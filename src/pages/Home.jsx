@@ -4,21 +4,23 @@ import * as tf from '@tensorflow/tfjs';
 
 const DRAW_TITLE = 'Start by drawing a symbol in the box:';
 const symbols = new Array();
+var counter = -1;
+let number = 0;
 
 export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {};
+    this.symbols = [null, null, null, null, null];
     this.clear = this.clear.bind(this);
     this.tempImg = this.tempImg.bind(this);
     this.add = this.add.bind(this);
     this.predict = this.predict.bind(this);
     this.loadModel();
-    
   }
 
   async loadModel(){
-    this.model = await tf.loadModel('https://s3-eu-west-1.amazonaws.com/symbolorum/static/Keras/model.json');
+    this.model = await tf.loadModel('https://github.com/techdem/symbolorum/blob/master/src/assets/Keras.json');
   }
 
   clear(){
@@ -41,12 +43,27 @@ export default class Home extends Component {
   
   add(){
     
-    symbols.push(this.img);
+    if (counter > 3) {
+      this.symbols[0] = this.symbols[1];
+      this.symbols[1] = this.symbols[2];
+      this.symbols[2] = this.symbols[3];
+      this.symbols[3] = this.symbols[4];
+      counter = 4;
+      number++;
+    }
+    else {
+      counter++;
+      number++;
+    }
     
-    this.setState({ symbols, clear: false });
-
+    this.symbols[counter] = number;
+    
+    this.setState({
+      symbols
+    })
+    
     if(typeof this.props.onAdd === 'function'){
-      this.props.onAdd(symbols);
+      this.props.onAdd();
     }
   }
   
@@ -58,15 +75,15 @@ export default class Home extends Component {
       });
       return;
     }
-
+    
     await tf.tidy(() => {
       let maxProb = 0;
       let number;
-      let img = tf.fromPixels(this.state.img, 1);
-      img = img.reshape([1, 28, 28, 1]);
-      img = tf.cast(img, 'float32');
+      let tensor = tf.fromPixels(this.state.img, 1);
+      tensor = tensor.reshape([1, 28, 28, 1]);
+      tensor = tf.cast(tensor, 'float32');
     
-      const output = this.model.predict(img);
+      const output = this.model.predict(tensor);
       const predictions = Array.from(output.dataSync());
         
       predictions.forEach((prob, num) => {
@@ -76,7 +93,7 @@ export default class Home extends Component {
         }
       });
       
-      this.setState({ number, clear: false });
+      this.setState({ number, tensor, clear: false });
 
       if(typeof this.props.onPredict === 'function'){
         this.props.onPredict(number);
@@ -100,14 +117,17 @@ export default class Home extends Component {
           />
         </div>
         
-        <h5>You can store up to five symbols:</h5>
-        <button onClick={this.predict}>
+        <button onClick={this.add}>
             {this.props.buttonText || 'Add'}
         </button>
         <button onClick={this.clear}>
             {this.props.buttonText || 'Clear'}
         </button>
-        <h1>{this.state.number}</h1>
+        
+        <h5>You can store up to five symbols:</h5>
+        
+        <h1>{this.symbols.length}</h1>
+        <h1>{this.symbols[0]}{this.symbols[1]}{this.symbols[2]}{this.symbols[3]}{this.symbols[4]}</h1>
       </React.Fragment>
     )
   }
