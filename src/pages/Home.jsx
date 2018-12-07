@@ -20,7 +20,7 @@ export default class Home extends Component {
   }
 
   async loadModel(){
-    this.model = await tf.loadModel('https://github.com/techdem/symbolorum/blob/master/src/assets/Keras.json');
+    this.model = await tf.loadModel('https://s3-eu-west-1.amazonaws.com/symbolorum/static/Keras/model.json');
   }
 
   clear(){
@@ -43,20 +43,18 @@ export default class Home extends Component {
   
   add(){
     
-    if (counter > 3) {
-      this.symbols[0] = this.symbols[1];
-      this.symbols[1] = this.symbols[2];
-      this.symbols[2] = this.symbols[3];
-      this.symbols[3] = this.symbols[4];
-      counter = 4;
-      number++;
-    }
-    else {
+    if (counter == 0) {
+      this.symbols[4] = this.symbols[3];
+      this.symbols[3] = this.symbols[2];
+      this.symbols[2] = this.symbols[1];
+      this.symbols[1] = this.symbols[0];
+    } else {
       counter++;
-      number++;
     }
     
-    this.symbols[counter] = number;
+    this.predict();
+    
+    this.symbols[counter] = number++;;
     
     this.setState({
       symbols
@@ -70,7 +68,7 @@ export default class Home extends Component {
   async predict() {
     if(!this.model){
       this.setState({
-        number: "model not loaded",
+        number: 99,
         clear: false
       });
       return;
@@ -113,7 +111,7 @@ export default class Home extends Component {
             height={this.props.height}
             width={this.props.width}
             lineWidth={5}
-            onGetImage={this.tempImg}
+            onGetImage={this.tempImg,this.predict}
           />
         </div>
         
@@ -124,10 +122,14 @@ export default class Home extends Component {
             {this.props.buttonText || 'Clear'}
         </button>
         
-        <h5>You can store up to five symbols:</h5>
+        <h5>You can store up to five symbols!</h5>
         
-        <h1>{this.symbols.length}</h1>
-        <h1>{this.symbols[0]}{this.symbols[1]}{this.symbols[2]}{this.symbols[3]}{this.symbols[4]}</h1>
+        <h1>List:</h1>
+        <h4>First:</h4><div>{this.symbols[0]}</div>
+        <h4>Second:</h4><div>{this.symbols[1]}</div>
+        <h4>Third:</h4><div>{this.symbols[2]}</div>
+        <h4>Fourth:</h4><div>{this.symbols[3]}</div>
+        <h4>Fifth:</h4><div>{this.symbols[4]}</div>
       </React.Fragment>
     )
   }
