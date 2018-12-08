@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Amplify, {Storage} from 'aws-amplify';
-import { S3Album } from 'aws-amplify-react';
 import Draw from '../components/Draw';
 import * as tf from '@tensorflow/tfjs';
 
@@ -28,7 +27,7 @@ export default class Home extends Component {
   }
   
   async loadModel(){
-    this.model = await tf.loadModel('https://github.com/techdem/symbolorum/blob/master/src/assets/Keras.json');
+    this.model = await tf.loadModel('../assets/Keras.json');
   }
 
   clear(){
@@ -123,7 +122,7 @@ export default class Home extends Component {
     
     // ctx.drawImage(this.symbols[0], 0, 0);
     
-    var img = new Image;
+    var img = new Image();
     
     for (var i = -1; i < 21; i ++) {
       console.log("looping outer");
@@ -140,8 +139,6 @@ export default class Home extends Component {
     const canvas = this.refs.painting;
     
     var saveImage = canvas.toDataURL("image/png").replace(/^data:image\/\w+;base64,/, "");
-    //var ext = buffer.split(';')[0].match(/jpeg|png|gif/)[0];
-    //var data = buffer.replace(/^data:image\/\w+;base64,/, "");
     var buffer = new Buffer(saveImage, 'base64');
     var fileName = (Date.now()).toString() + '.png';
 

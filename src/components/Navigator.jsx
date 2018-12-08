@@ -13,6 +13,9 @@ const HomeItems = props => (
     <Nav.ItemLink href="#/profile">
       Profile
     </Nav.ItemLink>
+    <Nav.ItemLink href="#/gallery">
+      Gallery
+    </Nav.ItemLink>
     <Nav.ItemLink href="#/login">
       Login
       <BSpan srOnly>(current}</BSpan>
@@ -28,6 +31,27 @@ const ProfileItems = props => (
     <Nav.ItemLink href="#/profile" active>
       Profile
     </Nav.ItemLink>
+    <Nav.ItemLink href="#/gallery">
+      Gallery
+    </Nav.ItemLink>
+    <Nav.ItemLink href="#/login">
+      Login
+      <BSpan srOnly>(current}</BSpan>
+    </Nav.ItemLink>
+  </React.Fragment>
+)
+
+const GalleryItems = props => (
+  <React.Fragment>
+    <Nav.ItemLink href="#/">
+      Home
+    </Nav.ItemLink>
+    <Nav.ItemLink href="#/profile">
+      Profile
+    </Nav.ItemLink>
+    <Nav.ItemLink href="#/gallery" active>
+      Gallery
+    </Nav.ItemLink>
     <Nav.ItemLink href="#/login">
       Login
       <BSpan srOnly>(current}</BSpan>
@@ -42,6 +66,9 @@ const LoginItems = props => (
     </Nav.ItemLink>
     <Nav.ItemLink href="#/profile">
       Profile
+    </Nav.ItemLink>
+    <Nav.ItemLink href="#/gallery">
+      Gallery
     </Nav.ItemLink>
     <Nav.ItemLink href="#/login" active>
       Login
@@ -87,6 +114,7 @@ export default class Navigator extends Component {
               <Switch>
                 <Route exact path="/" component={HomeItems} />
                 <Route exact path="/profile" component={ProfileItems} />
+                <Route exact path="/Gallery" component={GalleryItems} />
                 <Route exact path="/login" component={LoginItems} />
               </Switch>
             </HashRouter>

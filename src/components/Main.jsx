@@ -6,6 +6,7 @@ import store from '../store';
 
 import Home from '../pages/Home';
 import Profile from '../pages/Profile'
+import Gallery from '../pages/Gallery'
 import Login from '../pages/Login';
 
 export default class Main extends Component {
@@ -46,6 +47,11 @@ export default class Main extends Component {
                 exact
                 path="/profile"
                 render={(props) => <Profile user={user} />}
+              />
+              <Route
+                exact
+                path="/gallery"
+                render={(props) => <Gallery user={user} />}
               />
               <Route
                 exact
