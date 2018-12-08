@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Draw from '../components/Draw';
 import * as tf from '@tensorflow/tfjs';
 
-const DRAW_TITLE = 'Start by drawing a symbol in the box:';
 const symbols = new Array();
 var counter = -1;
 
@@ -15,6 +14,8 @@ export default class Home extends Component {
     this.tempImg = this.tempImg.bind(this);
     this.add = this.add.bind(this);
     this.predict = this.predict.bind(this);
+    this.generate = this.generate.bind(this);
+    this.new = this.new.bind(this);
     this.loadModel();
   }
   
@@ -33,16 +34,23 @@ export default class Home extends Component {
     }
   }
   
+  new() {
+    const canvas = this.refs.painting;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  
   tempImg(imageData) {
     this.setState({
       img: imageData,
       clear: false
-    })
+    });
   }
   
   add(imageData){
-    const canvas = this.refs.canvas
-    const ctx = canvas.getContext('2d')
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
     
     if (counter === 0) {
       this.symbols[4] = this.symbols[3];
@@ -58,7 +66,7 @@ export default class Home extends Component {
 
     this.setState({
       symbols
-    })
+    });
     
     if(typeof this.props.onAdd === 'function'){
       this.props.onAdd();
@@ -101,11 +109,36 @@ export default class Home extends Component {
     });
   }
 
+  generate() {
+    const canvas = this.refs.painting;
+    const ctx = canvas.getContext('2d');
+    
+    // ctx.drawImage(this.symbols[0], 0, 0);
+    
+    var img = new Image;
+    
+    for (var i = -1; i < 20; i ++) {
+      console.log("looping outer");
+      for (var j = -1; j < 12; j++) {
+        console.log("looping inner");
+        //img.onload = function(){
+          console.log("creatingimage");
+          ctx.drawImage(img,i*25,j*25);
+        //};
+        img.src = this.symbols[0];
+      }
+    }
+  }
+  
   render() {
-
+    const style = {
+      cursor: 'arrow',
+      border: '1px black solid',
+    };
+    
     return (
       <React.Fragment>
-        <h5>{this.props.title || DRAW_TITLE}</h5>
+        <h5>{this.props.title || 'Start by drawing a symbol in the box:'}</h5>
         <div>
           <Draw
             brushColor={'grey'}
@@ -151,7 +184,23 @@ export default class Home extends Component {
           <div>
             <img src={this.symbols[4]} />
           </div>
+        
+        <button onClick={this.generate}>
+            {this.props.buttonText || 'Generate'}
+        </button>
+        <button onClick={this.new}>
+            {this.props.buttonText || 'Clear'}
+        </button>
+          
+        <h5>Generate a painting using the stored symbols:</h5>
+          
+        <canvas ref="painting"
+          width={500}
+          height={300}
+          style={style}
+        />
+        
       </React.Fragment>
-    )
+    );
   }
 }
