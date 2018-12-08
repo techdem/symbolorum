@@ -91,7 +91,7 @@
 				"TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/auth/cognitoc7133ded-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "cognitoc7133ded_identitypool_c7133ded",
-					"allowUnauthenticatedIdentities": false,
+					"allowUnauthenticatedIdentities": true,
 					"thirdPartyAuth": false,
 					"lambdaLogPolicy": "cognitoc7133ded_lambda_log_policy",
 					"openIdLambdaRoleName": "cognitoc7133ded_openid_lambda_role",
@@ -132,6 +132,21 @@
 					"authRoleArn": "arn:aws:iam::684106929968:role/symbolorum-20181202114915-authRole",
 					"resourceName": "cognitoc7133ded",
 					"authSelections": "identityPoolAndUserPool"
+				}
+			}
+		},
+		"storagesymbolorumDB": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"Parameters": {
+					"bucketName": "symbolorum-db",
+					"authPolicyName": "s3_amplify_c4f2f774",
+					"unauthPolicyName": "s3_amplify_c4f2f774",
+					"authRoleName": "symbolorum-20181202114915-authRole",
+					"unauthRoleName": "symbolorum-20181202114915-unauthRole",
+					"authPermissions": "rw",
+					"unauthPermissions": "r"
 				}
 			}
 		}

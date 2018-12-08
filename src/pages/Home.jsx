@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import Amplify, {Storage} from 'aws-amplify';
+import { S3Album } from 'aws-amplify-react';
 import Draw from '../components/Draw';
 import * as tf from '@tensorflow/tfjs';
+
+import aws_exports from '../aws-exports.js';
+Amplify.configure(aws_exports);
+
+Storage.configure({ level: 'private' });
 
 const symbols = new Array();
 var counter = -1;
@@ -15,7 +22,7 @@ export default class Home extends Component {
     this.add = this.add.bind(this);
     this.predict = this.predict.bind(this);
     this.generate = this.generate.bind(this);
-    this.new = this.new.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
     this.save = this.save.bind(this);
     this.loadModel();
   }
@@ -35,7 +42,7 @@ export default class Home extends Component {
     }
   }
   
-  new() {
+  uploadImage() {
     const canvas = this.refs.painting;
     const ctx = canvas.getContext('2d');
     
@@ -118,7 +125,7 @@ export default class Home extends Component {
     
     var img = new Image;
     
-    for (var i = -1; i < 20; i ++) {
+    for (var i = -1; i < 21; i ++) {
       console.log("looping outer");
       for (var j = -1; j < 12; j++) {
         //img.onload = function(){
@@ -130,11 +137,21 @@ export default class Home extends Component {
   }
   
   save() {
+    const canvas = this.refs.painting;
     
+    var saveImage = canvas.toDataURL("image/png").replace(/^data:image\/\w+;base64,/, "");
+    //var ext = buffer.split(';')[0].match(/jpeg|png|gif/)[0];
+    //var data = buffer.replace(/^data:image\/\w+;base64,/, "");
+    var buffer = new Buffer(saveImage, 'base64');
+    var fileName = (Date.now()).toString() + '.png';
+
+    Storage.put(fileName, buffer).then(() => {
+      this.setState({ file: fileName });
+    });
   }
   
   render() {
-    const { user } = this.state;
+    const { user } = this.props;
     const style = {
       cursor: 'arrow',
       border: '1px black solid',
@@ -158,12 +175,11 @@ export default class Home extends Component {
         <button onClick={this.clear}> {'Clear'} </button>
         
         <h5>You can store up to five symbols!</h5>
-        
-        <h1>List: </h1>
-          <div>
+        <div>
             <p> Adding: </p>
             ^<canvas ref="canvas" width={50} height={50} />^
           </div>
+        <h1>List: </h1>
         <h5>First:</h5>
           <div>
             <img src={this.symbols[0]} />
@@ -186,7 +202,7 @@ export default class Home extends Component {
           </div>
         
         <button onClick={this.generate}> {'Generate'} </button>
-        <button onClick={this.new}> {'Clear'} </button>
+        <button onClick={this.uploadImage}> {'Clear'} </button>
           
         <h5>Generate a painting using the stored symbols:</h5>
           

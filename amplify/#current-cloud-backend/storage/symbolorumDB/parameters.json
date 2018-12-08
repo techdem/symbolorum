@@ -1,0 +1,9 @@
+{
+    "bucketName": "symbolorum-db",
+    "authPolicyName": "s3_amplify_c4f2f774",
+    "unauthPolicyName": "s3_amplify_c4f2f774",
+    "authRoleName": "symbolorum-20181202114915-authRole",
+    "unauthRoleName": "symbolorum-20181202114915-unauthRole",
+    "authPermissions": "rw",
+    "unauthPermissions": "r"
+}

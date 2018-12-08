@@ -8,7 +8,9 @@ const awsmobile =  {
     "aws_cognito_identity_pool_id": "eu-west-1:4a4f0fe1-4374-4d59-8ab7-3dafb873f005",
     "aws_cognito_region": "eu-west-1",
     "aws_user_pools_id": "eu-west-1_6DNZP715Z",
-    "aws_user_pools_web_client_id": "1m5lp0rhf3ok48su8ia5ks7ed7"
+    "aws_user_pools_web_client_id": "1m5lp0rhf3ok48su8ia5ks7ed7",
+    "aws_user_files_s3_bucket": "symbolorum-db",
+    "aws_user_files_s3_bucket_region": "eu-west-1"
 };
 
 
