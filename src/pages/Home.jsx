@@ -53,7 +53,6 @@ export default class Home extends Component {
       counter++;
     }
     
-    console.log(this.state.img);
     ctx.putImageData(this.state.img, 0, 0);
     this.symbols[counter] = canvas.toDataURL();
 
@@ -81,7 +80,7 @@ export default class Home extends Component {
       let maxProb = 0;
       let number;
       let tensor = tf.fromPixels(this.state.img, 1);
-      tensor = tensor.reshape([1, 28, 28, 1]);
+      tensor = tensor.reshape([1, 50, 50, 1]);
       tensor = tf.cast(tensor, 'float32');
     
       const output = this.model.predict(tensor);
@@ -132,23 +131,23 @@ export default class Home extends Component {
             <p> Adding: </p>
             ^<canvas ref="canvas" width={50} height={50} />^
           </div>
-        <h4>First:</h4>
+        <h5>First:</h5>
           <div>
             <img src={this.symbols[0]} />
           </div>
-        <h4>Second:</h4>
+        <h5>Second:</h5>
           <div>
             <img src={this.symbols[1]} />
           </div>
-        <h4>Third:</h4>
+        <h5>Third:</h5>
           <div>
             <img src={this.symbols[2]} />
           </div>
-        <h4>Fourth:</h4>
+        <h5>Fourth:</h5>
           <div>
             <img src={this.symbols[3]} />
           </div>
-        <h4>Fifth:</h4>
+        <h5>Fifth:</h5>
           <div>
             <img src={this.symbols[4]} />
           </div>
