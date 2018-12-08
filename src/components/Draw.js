@@ -89,7 +89,7 @@ export default class Draw extends Component {
     this.ctx.lineTo(cX, cY);
     this.ctx.stroke();
   }
-
+  
   render() {
     const style = {
       cursor: 'crosshair',

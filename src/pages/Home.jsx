@@ -5,7 +5,6 @@ import * as tf from '@tensorflow/tfjs';
 const DRAW_TITLE = 'Start by drawing a symbol in the box:';
 const symbols = new Array();
 var counter = -1;
-let number = 0;
 
 export default class Home extends Component {
   constructor(props){
@@ -18,9 +17,9 @@ export default class Home extends Component {
     this.predict = this.predict.bind(this);
     this.loadModel();
   }
-
+  
   async loadModel(){
-    this.model = await tf.loadModel('https://s3-eu-west-1.amazonaws.com/symbolorum/static/Keras/model.json');
+    this.model = await tf.loadModel('https://github.com/techdem/symbolorum/blob/master/src/assets/Keras.json');
   }
 
   clear(){
@@ -41,9 +40,11 @@ export default class Home extends Component {
     })
   }
   
-  add(){
+  add(imageData){
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
     
-    if (counter == 0) {
+    if (counter === 0) {
       this.symbols[4] = this.symbols[3];
       this.symbols[3] = this.symbols[2];
       this.symbols[2] = this.symbols[1];
@@ -52,10 +53,10 @@ export default class Home extends Component {
       counter++;
     }
     
-    this.predict();
-    
-    this.symbols[counter] = number++;;
-    
+    console.log(this.state.img);
+    ctx.putImageData(this.state.img, 0, 0);
+    this.symbols[counter] = canvas.toDataURL();
+
     this.setState({
       symbols
     })
@@ -65,8 +66,10 @@ export default class Home extends Component {
     }
   }
   
-  async predict() {
+  async predict(imageData) {
+    console.log(imageData);
     if(!this.model){
+      console.log(this.state.img);
       this.setState({
         number: 99,
         clear: false
@@ -105,13 +108,13 @@ export default class Home extends Component {
       <React.Fragment>
         <h5>{this.props.title || DRAW_TITLE}</h5>
         <div>
-          <Draw 
+          <Draw
             brushColor={'grey'}
             clear={this.state.clear}
-            height={this.props.height}
-            width={this.props.width}
+            height={200}
+            width={200}
             lineWidth={5}
-            onGetImage={this.tempImg,this.predict}
+            onGetImage={this.tempImg}
           />
         </div>
         
@@ -124,12 +127,31 @@ export default class Home extends Component {
         
         <h5>You can store up to five symbols!</h5>
         
-        <h1>List:</h1>
-        <h4>First:</h4><div>{this.symbols[0]}</div>
-        <h4>Second:</h4><div>{this.symbols[1]}</div>
-        <h4>Third:</h4><div>{this.symbols[2]}</div>
-        <h4>Fourth:</h4><div>{this.symbols[3]}</div>
-        <h4>Fifth:</h4><div>{this.symbols[4]}</div>
+        <h1>List: </h1>
+          <div>
+            <p> Adding: </p>
+            ^<canvas ref="canvas" width={50} height={50} />^
+          </div>
+        <h4>First:</h4>
+          <div>
+            <img src={this.symbols[0]} />
+          </div>
+        <h4>Second:</h4>
+          <div>
+            <img src={this.symbols[1]} />
+          </div>
+        <h4>Third:</h4>
+          <div>
+            <img src={this.symbols[2]} />
+          </div>
+        <h4>Fourth:</h4>
+          <div>
+            <img src={this.symbols[3]} />
+          </div>
+        <h4>Fifth:</h4>
+          <div>
+            <img src={this.symbols[4]} />
+          </div>
       </React.Fragment>
     )
   }
