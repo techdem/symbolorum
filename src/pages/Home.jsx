@@ -27,7 +27,7 @@ export default class Home extends Component {
   }
   
   async loadModel(){
-    this.model = await tf.loadModel('../assets/Keras.json');
+    this.model = await tf.loadModel('Keras.json');
   }
 
   clear(){
@@ -55,7 +55,7 @@ export default class Home extends Component {
     });
   }
   
-  add(imageData){
+  add(){
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     
@@ -80,12 +80,10 @@ export default class Home extends Component {
     }
   }
   
-  async predict(imageData) {
-    console.log(imageData);
+  async predict() {
     if(!this.model){
-      console.log(this.state.img);
       this.setState({
-        number: 99,
+        number: 1,
         clear: false
       });
       return;
@@ -120,12 +118,9 @@ export default class Home extends Component {
     const canvas = this.refs.painting;
     const ctx = canvas.getContext('2d');
     
-    // ctx.drawImage(this.symbols[0], 0, 0);
-    
     var img = new Image();
     
     for (var i = -1; i < 21; i ++) {
-      console.log("looping outer");
       for (var j = -1; j < 12; j++) {
         //img.onload = function(){
           ctx.drawImage(img,i*25,j*25);
@@ -170,7 +165,8 @@ export default class Home extends Component {
         
         <button onClick={this.add}> {'Add'} </button>
         <button onClick={this.clear}> {'Clear'} </button>
-        
+        <button onClick={this.predict}> {'Check'} </button>
+        <h5>{this.state.number}</h5>
         <h5>You can store up to five symbols!</h5>
         <div>
             <p> Adding: </p>
@@ -200,7 +196,7 @@ export default class Home extends Component {
         
         <button onClick={this.generate}> {'Generate'} </button>
         <button onClick={this.uploadImage}> {'Clear'} </button>
-          
+        
         <h5>Generate a painting using the stored symbols:</h5>
           
         <canvas ref="painting"
