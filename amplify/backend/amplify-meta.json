@@ -49,5 +49,11 @@
 			},
 			"lastPushDirHash": "kOYfqAViAW46D8r0cs1t5tFyRVA="
 		}
+	},
+	"storage": {
+		"symbolorumDB": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }

@@ -16,6 +16,7 @@ export default class Home extends Component {
     this.predict = this.predict.bind(this);
     this.generate = this.generate.bind(this);
     this.new = this.new.bind(this);
+    this.save = this.save.bind(this);
     this.loadModel();
   }
   
@@ -128,7 +129,12 @@ export default class Home extends Component {
     }
   }
   
+  save() {
+    
+  }
+  
   render() {
+    const { user } = this.state;
     const style = {
       cursor: 'arrow',
       border: '1px black solid',
@@ -136,7 +142,7 @@ export default class Home extends Component {
     
     return (
       <React.Fragment>
-        <h5>{this.props.title || 'Start by drawing a symbol in the box:'}</h5>
+        <h5>{'Start by drawing a symbol in the box:'}</h5>
         <div>
           <Draw
             brushColor={'grey'}
@@ -148,12 +154,8 @@ export default class Home extends Component {
           />
         </div>
         
-        <button onClick={this.add}>
-            {this.props.buttonText || 'Add'}
-        </button>
-        <button onClick={this.clear}>
-            {this.props.buttonText || 'Clear'}
-        </button>
+        <button onClick={this.add}> {'Add'} </button>
+        <button onClick={this.clear}> {'Clear'} </button>
         
         <h5>You can store up to five symbols!</h5>
         
@@ -183,12 +185,8 @@ export default class Home extends Component {
             <img src={this.symbols[4]} />
           </div>
         
-        <button onClick={this.generate}>
-            {this.props.buttonText || 'Generate'}
-        </button>
-        <button onClick={this.new}>
-            {this.props.buttonText || 'Clear'}
-        </button>
+        <button onClick={this.generate}> {'Generate'} </button>
+        <button onClick={this.new}> {'Clear'} </button>
           
         <h5>Generate a painting using the stored symbols:</h5>
           
@@ -197,7 +195,10 @@ export default class Home extends Component {
           height={300}
           style={style}
         />
-        
+
+        <h5>You can save the paintings you like to a personal album!</h5>
+        {!user && <h6>Please Login!</h6> }
+        {user && <button onClick={this.save}> {'Save to Album'} </button> }
       </React.Fragment>
     );
   }
