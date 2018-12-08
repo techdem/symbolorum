@@ -120,12 +120,10 @@ export default class Home extends Component {
     for (var i = -1; i < 20; i ++) {
       console.log("looping outer");
       for (var j = -1; j < 12; j++) {
-        console.log("looping inner");
         //img.onload = function(){
-          console.log("creatingimage");
           ctx.drawImage(img,i*25,j*25);
         //};
-        img.src = this.symbols[0];
+        img.src = this.symbols[Math.floor(Math.random()*4)];
       }
     }
   }
