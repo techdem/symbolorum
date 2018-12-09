@@ -6,4 +6,10 @@
 
 #### React, TensorFlow, AWS
 
-## Abstract
+## Setting up
+
+#### npm install
+
+#### npm start
+
+#### Project has been configured with windows-style paths
