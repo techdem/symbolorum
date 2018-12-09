@@ -6,11 +6,13 @@ export default class Home extends Component {
     const { user } = this.props;
       return (
         <React.Fragment>
-          {!user && <h5>Sign up for an account and saved creations will be displayed here!</h5>}
-          {user && <div className="App">
+          {!user && <h5>Sign up for an account to add your creations to this page!</h5>}
+          {/* {user && <div className="App">
             <h5> Your Creations: </h5>
             <S3Album level="private" path='' />
-          </div>}
+          </div>} */}
+          <h5>Recent Creations:</h5>
+          <S3Album level="public" path='' />
         </React.Fragment>
       );
     }

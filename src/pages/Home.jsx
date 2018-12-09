@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Amplify, {Storage} from 'aws-amplify';
+import { S3Album } from 'aws-amplify-react';
 import Draw from '../components/Draw';
 import * as tf from '@tensorflow/tfjs';
 
 import aws_exports from '../aws-exports.js';
 Amplify.configure(aws_exports);
 
-Storage.configure({ level: 'private' });
+Storage.configure({ level: 'public' });
 
 const symbols = new Array();
 var counter = -1;
@@ -137,8 +138,8 @@ export default class Home extends Component {
     var buffer = new Buffer(saveImage, 'base64');
     var fileName = (Date.now()).toString() + '.png';
 
-    Storage.put(fileName, buffer).then(() => {
-      this.setState({ file: fileName });
+    Storage.put(fileName, buffer, 'Private Content', {
+      level: 'private'
     });
   }
   

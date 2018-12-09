@@ -1,20 +1,20 @@
 {
     "projectName": "symbolorum",
-    "projectPath": "/home/ec2-user/environment/symbolorum",
+    "projectPath": "C:\\Projects\\symbolorum",
     "defaultEditor": "code",
     "frontendHandler": {
-        "javascript": "/home/ec2-user/.nvm/versions/node/v10.14.1/lib/node_modules/@aws-amplify/cli/node_modules/amplify-frontend-javascript"
+        "javascript": "C:\\Users\\tudor\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-frontend-javascript"
     },
     "javascript": {
         "framework": "react",
         "config": {
             "SourceDir": "src",
             "DistributionDir": "build",
-            "BuildCommand": "npm run-script build",
-            "StartCommand": "npm run-script start"
+            "BuildCommand": "npm.cmd run-script build",
+            "StartCommand": "npm.cmd run-script start"
         }
     },
     "providers": {
-        "awscloudformation": "/home/ec2-user/.nvm/versions/node/v10.14.1/lib/node_modules/@aws-amplify/cli/node_modules/amplify-provider-awscloudformation"
+        "awscloudformation": "C:\\Users\\tudor\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-provider-awscloudformation"
     }
 }

@@ -1,69 +1,69 @@
 {
-	"providers": {
-		"awscloudformation": {
-			"AuthRoleName": "symbolorum-20181202114915-authRole",
-			"UnauthRoleArn": "arn:aws:iam::684106929968:role/symbolorum-20181202114915-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::684106929968:role/symbolorum-20181202114915-authRole",
-			"Region": "eu-west-1",
-			"DeploymentBucketName": "symbolorum-20181202114915-deployment",
-			"UnauthRoleName": "symbolorum-20181202114915-unauthRole",
-			"StackName": "symbolorum-20181202114915",
-			"StackId": "arn:aws:cloudformation:eu-west-1:684106929968:stack/symbolorum-20181202114915/4b180430-f628-11e8-a70f-0a999da78b84"
-		}
-	},
-	"hosting": {
-		"S3AndCloudFront": {
-			"service": "S3AndCloudFront",
-			"providerPlugin": "awscloudformation",
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/hosting/template.json",
-				"logicalId": "hostingS3AndCloudFront"
-			},
-			"lastPushTimeStamp": "2018-12-08T20:23:08.576Z",
-			"output": {
-				"S3BucketSecureURL": "https://symbolorum.s3.amazonaws.com",
-				"WebsiteURL": "http://symbolorum.s3-website-eu-west-1.amazonaws.com",
-				"Region": "eu-west-1",
-				"HostingBucketName": "symbolorum"
-			},
-			"lastPushDirHash": "s18jjdgZuJdczI09Ks5L5t5QCiw="
-		}
-	},
-	"auth": {
-		"cognitoc7133ded": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/auth/cognitoc7133ded-cloudformation-template.yml",
-				"logicalId": "authcognitoc7133ded"
-			},
-			"lastPushTimeStamp": "2018-12-08T20:23:08.578Z",
-			"output": {
-				"AppClientSecret": "q4cjntlphsg60bkee367adnqk7na9gaovtcoe0envapkcmooup1",
-				"UserPoolId": "eu-west-1_6DNZP715Z",
-				"AppClientIDWeb": "1m5lp0rhf3ok48su8ia5ks7ed7",
-				"AppClientID": "2b57cj50gehk93ffol78eof5g2",
-				"IdentityPoolId": "eu-west-1:4a4f0fe1-4374-4d59-8ab7-3dafb873f005",
-				"IdentityPoolName": "cognitoc7133ded_identitypool_c7133ded",
-				"UserPoolName": "cognitoc7133ded_userpool_c7133ded"
-			},
-			"lastPushDirHash": "HEKJQ3dD/6m0IhkE011fJ/r5P6k="
-		}
-	},
-	"storage": {
-		"symbolorumDB": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation",
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
-				"logicalId": "storagesymbolorumDB"
-			},
-			"lastPushTimeStamp": "2018-12-08T20:23:08.578Z",
-			"output": {
-				"BucketName": "symbolorum-db",
-				"Region": "eu-west-1"
-			},
-			"lastPushDirHash": "sUygrn/UbzQvblnnHNqjvBfhI78="
-		}
-	}
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "symbolorum-20181202114915-authRole",
+            "UnauthRoleArn": "arn:aws:iam::684106929968:role/symbolorum-20181202114915-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::684106929968:role/symbolorum-20181202114915-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "symbolorum-20181202114915-deployment",
+            "UnauthRoleName": "symbolorum-20181202114915-unauthRole",
+            "StackName": "symbolorum-20181202114915",
+            "StackId": "arn:aws:cloudformation:eu-west-1:684106929968:stack/symbolorum-20181202114915/4b180430-f628-11e8-a70f-0a999da78b84"
+        }
+    },
+    "hosting": {
+        "S3AndCloudFront": {
+            "service": "S3AndCloudFront",
+            "providerPlugin": "awscloudformation",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/hosting/template.json",
+                "logicalId": "hostingS3AndCloudFront"
+            },
+            "lastPushTimeStamp": "2018-12-08T20:23:08.576Z",
+            "output": {
+                "S3BucketSecureURL": "https://symbolorum.s3.amazonaws.com",
+                "WebsiteURL": "http://symbolorum.s3-website-eu-west-1.amazonaws.com",
+                "Region": "eu-west-1",
+                "HostingBucketName": "symbolorum"
+            },
+            "lastPushDirHash": "s18jjdgZuJdczI09Ks5L5t5QCiw="
+        }
+    },
+    "auth": {
+        "cognitoc7133ded": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/auth/cognitoc7133ded-cloudformation-template.yml",
+                "logicalId": "authcognitoc7133ded"
+            },
+            "lastPushTimeStamp": "2018-12-08T20:23:08.578Z",
+            "output": {
+                "AppClientSecret": "q4cjntlphsg60bkee367adnqk7na9gaovtcoe0envapkcmooup1",
+                "UserPoolId": "eu-west-1_6DNZP715Z",
+                "AppClientIDWeb": "1m5lp0rhf3ok48su8ia5ks7ed7",
+                "AppClientID": "2b57cj50gehk93ffol78eof5g2",
+                "IdentityPoolId": "eu-west-1:4a4f0fe1-4374-4d59-8ab7-3dafb873f005",
+                "IdentityPoolName": "cognitoc7133ded_identitypool_c7133ded",
+                "UserPoolName": "cognitoc7133ded_userpool_c7133ded"
+            },
+            "lastPushDirHash": "HEKJQ3dD/6m0IhkE011fJ/r5P6k="
+        }
+    },
+    "storage": {
+        "symbolorumDB": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation",
+            "providerMetadata": {
+                "s3TemplateURL": "https://s3.amazonaws.com/symbolorum-20181202114915-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+                "logicalId": "storagesymbolorumDB"
+            },
+            "lastPushTimeStamp": "2018-12-08T20:23:08.578Z",
+            "output": {
+                "BucketName": "symbolorum-db",
+                "Region": "eu-west-1"
+            },
+            "lastPushDirHash": "sUygrn/UbzQvblnnHNqjvBfhI78="
+        }
+    }
 }
