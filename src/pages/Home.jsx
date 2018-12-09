@@ -27,7 +27,7 @@ export default class Home extends Component {
   }
   
   async loadModel(){
-    this.model = await tf.loadModel('Keras.json');
+    this.model = await tf.loadModel("Keras.json");
   }
 
   clear(){
@@ -83,7 +83,7 @@ export default class Home extends Component {
   async predict() {
     if(!this.model){
       this.setState({
-        number: 1,
+        number: "check model",
         clear: false
       });
       return;
