@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Amplify, {Storage} from 'aws-amplify';
-import { S3Album } from 'aws-amplify-react';
 import Draw from '../components/Draw';
 import * as tf from '@tensorflow/tfjs';
 
@@ -28,7 +27,7 @@ export default class Home extends Component {
   }
   
   async loadModel(){
-    this.model = await tf.loadModel("Keras.json");
+    this.model = await tf.loadModel('https://s3-eu-west-1.amazonaws.com/symbolorum/Keras.json');
   }
 
   clear(){
@@ -94,7 +93,7 @@ export default class Home extends Component {
       let maxProb = 0;
       let number;
       let tensor = tf.fromPixels(this.state.img, 1);
-      tensor = tensor.reshape([1, 50, 50, 1]);
+      tensor = tensor.reshape([1, 28, 28, 1]);
       tensor = tf.cast(tensor, 'float32');
     
       const output = this.model.predict(tensor);
@@ -206,7 +205,7 @@ export default class Home extends Component {
           style={style}
         />
 
-        <h5>You can save the paintings you like to a personal album!</h5>
+        <h5>You can save the paintings you like for everyone to see!</h5>
         {!user && <h6>Please Login!</h6> }
         {user && <button onClick={this.save}> {'Save to Album'} </button> }
       </React.Fragment>
