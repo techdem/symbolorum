@@ -72,11 +72,11 @@ export default class Draw extends Component {
   }
 
   handleonMouseUp() {
-    this.ctx.drawImage(this.canvas, 0, 0, 50, 50);
+    this.ctx.drawImage(this.canvas, 0, 0, 28, 28);
     this.drawing = false;
 
     if(typeof this.props.onGetImage === 'function'){
-      this.props.onGetImage(this.ctx.getImageData(0, 0, 50, 50));
+      this.props.onGetImage(this.ctx.getImageData(0, 0, 28, 28));
     }
   }
 

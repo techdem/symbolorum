@@ -27,7 +27,7 @@ export default class Home extends Component {
   }
   
   async loadModel(){
-    this.model = await tf.loadModel('https://s3-eu-west-1.amazonaws.com/symbolorum/Keras.json');
+    this.model = await tf.loadModel('https://s3-eu-west-1.amazonaws.com/symbolorum/static/Keras/model.json');
   }
 
   clear(){
@@ -95,7 +95,7 @@ export default class Home extends Component {
       let tensor = tf.fromPixels(this.state.img, 1);
       tensor = tensor.reshape([1, 28, 28, 1]);
       tensor = tf.cast(tensor, 'float32');
-    
+
       const output = this.model.predict(tensor);
       const predictions = Array.from(output.dataSync());
         
@@ -106,10 +106,10 @@ export default class Home extends Component {
         }
       });
       
-      this.setState({ number, tensor, clear: false });
+      this.setState({ number, predictions, clear: false });
 
       if(typeof this.props.onPredict === 'function'){
-        this.props.onPredict(number);
+        this.props.onPredict(number, predictions);
       }
     });
   }
@@ -158,7 +158,7 @@ export default class Home extends Component {
             clear={this.state.clear}
             height={200}
             width={200}
-            lineWidth={5}
+            lineWidth={15}
             onGetImage={this.tempImg}
           />
         </div>
