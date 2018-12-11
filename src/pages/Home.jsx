@@ -9,13 +9,14 @@ Amplify.configure(aws_exports);
 Storage.configure({ level: 'public' });
 
 const symbols = new Array();
-var counter = -1;
+const size = new Array();
 
 export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {};
     this.symbols = [null, null, null, null, null];
+    this.size = [null, null, null, null, null];
     this.clear = this.clear.bind(this);
     this.tempImg = this.tempImg.bind(this);
     this.add = this.add.bind(this);
@@ -32,7 +33,6 @@ export default class Home extends Component {
 
   clear(){
     this.setState({
-      number: false,
       clear: true
     });
 
@@ -55,24 +55,26 @@ export default class Home extends Component {
     });
   }
   
-  add(){
+  async add(){
+    await this.predict();
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     
-    if (counter === 0) {
-      this.symbols[4] = this.symbols[3];
-      this.symbols[3] = this.symbols[2];
-      this.symbols[2] = this.symbols[1];
-      this.symbols[1] = this.symbols[0];
-    } else {
-      counter++;
-    }
+    this.symbols[4] = this.symbols[3];
+    this.symbols[3] = this.symbols[2];
+    this.symbols[2] = this.symbols[1];
+    this.symbols[1] = this.symbols[0];
+    this.size[4] = this.size[3];
+    this.size[3] = this.size[2];
+    this.size[2] = this.size[1];
+    this.size[1] = this.size[0];
     
     ctx.putImageData(this.state.img, 0, 0);
-    this.symbols[counter] = canvas.toDataURL();
+    this.symbols[0] = canvas.toDataURL();
+    this.size[0] = this.state.number+1;
 
     this.setState({
-      symbols
+      symbols, size
     });
     
     if(typeof this.props.onAdd === 'function'){
@@ -105,7 +107,6 @@ export default class Home extends Component {
           number = num;
         }
       });
-      
       this.setState({ number, predictions, clear: false });
 
       if(typeof this.props.onPredict === 'function'){
@@ -119,13 +120,11 @@ export default class Home extends Component {
     const ctx = canvas.getContext('2d');
     
     var img = new Image();
-    
     for (var i = -1; i < 21; i ++) {
-      for (var j = -1; j < 12; j++) {
-        //img.onload = function(){
-          ctx.drawImage(img,i*25,j*25);
-        //};
-        img.src = this.symbols[Math.floor(Math.random()*4)];
+      for (var j = 0; j < 12; j++) {
+        let randomise = Math.floor(Math.random()*5);
+        img.src = this.symbols[randomise];
+        ctx.drawImage(img,i*25,j*25, this.size[randomise]*5, this.size[randomise]*5);
       }
     }
   }
@@ -136,7 +135,7 @@ export default class Home extends Component {
     var saveImage = canvas.toDataURL("image/png").replace(/^data:image\/\w+;base64,/, "");
     var buffer = new Buffer(saveImage, 'base64');
     var fileName = (Date.now()).toString() + '.png';
-
+    
     Storage.put(fileName, buffer, 'Private Content', {
       level: 'private'
     });
@@ -165,38 +164,26 @@ export default class Home extends Component {
         
         <button onClick={this.add}> {'Add'} </button>
         <button onClick={this.clear}> {'Clear'} </button>
-        <button onClick={this.predict}> {'Check'} </button>
         <h5>{this.state.number}</h5>
         <h5>You can store up to five symbols!</h5>
         <div>
-            <p> Adding: </p>
-            ^<canvas ref="canvas" width={50} height={50} />^
-          </div>
+          <p> Adding: </p>
+          >_ <canvas ref="canvas" width={50} height={50} />
+        </div>
+          
         <h1>List: </h1>
-        <h5>First:</h5>
-          <div>
-            <img src={this.symbols[0]} />
-          </div>
-        <h5>Second:</h5>
-          <div>
-            <img src={this.symbols[1]} />
-          </div>
-        <h5>Third:</h5>
-          <div>
-            <img src={this.symbols[2]} />
-          </div>
-        <h5>Fourth:</h5>
-          <div>
-            <img src={this.symbols[3]} />
-          </div>
-        <h5>Fifth:</h5>
-          <div>
-            <img src={this.symbols[4]} />
-          </div>
+        
+        <div>
+        <h5>I : <img src={this.symbols[0]} /></h5>
+        <h5>II : <img src={this.symbols[1]} /></h5>
+        <h5>III : <img src={this.symbols[2]} /></h5>
+        <h5>IV : <img src={this.symbols[3]} /></h5>
+        <h5>V : <img src={this.symbols[4]} /></h5>
+        </div>
         
         <button onClick={this.generate}> {'Generate'} </button>
         <button onClick={this.uploadImage}> {'Clear'} </button>
-        
+
         <h5>Generate a painting using the stored symbols:</h5>
           
         <canvas ref="painting"
