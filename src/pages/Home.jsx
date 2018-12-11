@@ -124,7 +124,7 @@ export default class Home extends Component {
       for (var j = 0; j < 12; j++) {
         let randomise = Math.floor(Math.random()*5);
         img.src = this.symbols[randomise];
-        ctx.drawImage(img,i*25,j*25, this.size[randomise]*5, this.size[randomise]*5);
+        ctx.drawImage(img,i*25,j*25, (this.size[randomise]*5)+20, (this.size[randomise]*5)+20);
       }
     }
   }
@@ -164,6 +164,7 @@ export default class Home extends Component {
         
         <button onClick={this.add}> {'Add'} </button>
         <button onClick={this.clear}> {'Clear'} </button>
+        <button onClick={this.predict}> {'Check'} </button>
         <h5>{this.state.number}</h5>
         <h5>You can store up to five symbols!</h5>
         <div>
